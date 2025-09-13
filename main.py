@@ -7,8 +7,8 @@ import asyncio
 # ==========================
 API_ID = 24168862
 API_HASH = "916a9424dd1e58ab7955001ccc0172b3"
-BOT_TOKEN = "8043728681:AAH4JD_20-ellwOipym4r1spLeKmxvHRvAY"
-OWNER_ID = 1362133845
+BOT_TOKEN = "8043728681:AAFHpGutHi5FfEd-MITclh6jHJ6XTbusFL4"
+OWNER_ID = 6183523384
 # ==========================
 
 app = Client(
