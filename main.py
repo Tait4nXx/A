@@ -269,60 +269,50 @@ async def handle_confirmation(client, callback_query):
 async def handle_next_round(client, message):
     user_id = message.from_user.id
     
-    # Check if user has a stored player ID
     if str(user_id) in player_ids:
         player_id = player_ids[str(user_id)]
         
-        # Send processing message
         processing_msg = await message.reply(
             "⏳ ᴘʜᴇɴᴏᴍᴇɴᴀʟ ᴘʀᴇᴅɪᴄᴛɪᴏɴ ɪɴ ᴘʀᴏɢʀᴇss...",
             reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
         )
         
-        # Store the processing message ID for this user
         processing_messages[user_id] = processing_msg.id
         
-        # Wait for 2-3 seconds
         await asyncio.sleep(random.uniform(2, 3))
         
-        # Generate prediction (mostly 1-5x, occasionally higher)
-        if random.random() < 0.8:  # 80% chance for 1-5x
-            prediction = round(random.uniform(1.0, 5.0), 2)
-        else:  # 20% chance for 5-50x
-            prediction = round(random.uniform(5.0, 50.0), 2)
+        # 90% chance for 1x-2x, 10% chance for 3x-4x
+        if random.random() < 0.9:
+            prediction = round(random.uniform(1.0, 2.0), 2)
+        else:
+            prediction = round(random.uniform(3.0, 4.0), 2)
         
-        # Create prediction message
         prediction_text = (
             f"🎯 **ɴᴇxᴛ ʀᴏᴜɴᴅ ᴘʀᴇᴅɪᴄᴛɪᴏɴ** 🎯\n\n"
             f"👤 **ᴘʟᴀʏᴇʀ ɪᴅ:** `{player_id}`\n"
             f"🔮 **ᴘʀᴇᴅɪᴄᴛɪᴏɴ:** `{prediction}x`\n\n"
-            f"🔮 **ʀɪsᴋ ᴜᴘ ᴛᴏ  5x**\n\n"
+            f"🔮 **ʀɪsᴋ ᴜᴘ ᴛᴏ  4x**\n\n"
             f"💡 **ᴛɪᴘ:** ᴄᴀsʜ ᴏᴜᴛ ʙᴇғᴏʀᴇ ᴛʜᴇ ᴘʀᴇᴅɪᴄᴛᴇᴅ ᴍᴜʟᴛɪᴘʟɪᴇʀ!"
         )
         
-        # Delete the processing message first
         try:
             await client.delete_messages(message.chat.id, processing_msg.id)
         except:
-            pass  # If we can't delete it, just continue
+            pass
         
-        # Send the prediction as a new message
         await message.reply(
             prediction_text,
             reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
         )
         
-        # Remove from processing messages storage
         if user_id in processing_messages:
             del processing_messages[user_id]
             
     else:
-        # If no player ID is stored, prompt for it again
         await message.reply(
             "ᴘʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴜɪᴅ ᴀɴᴅ ᴅᴇᴘᴏsɪᴛ sᴄʀᴇᴇɴsʜᴏᴛ ✅ғɪʀsᴛ:",
             reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
         )
-
 # ✅ Owner confirm command (backup)
 @app.on_message(filters.command("confirm") & filters.user(OWNER_ID))
 async def confirm_user(client, message):
