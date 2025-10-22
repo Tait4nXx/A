@@ -27,9 +27,14 @@ user_states = {}
 # Store processing messages to edit later
 processing_messages = {}
 
-# Custom filter to check if message is not a command and not "NEXT ROUND 💸"
-def is_player_id_input(_, __, m):
-    return not m.text.startswith('/') and m.text != "NEXT ROUND 💸"
+# from telegram import ReplyKeyboardRemove
+
+@bot.message_handler(commands=['remove'])
+async def remove_keyboard(message):
+    await message.reply(
+        "NEXT ROUND 💸 button hata diya gaya ✅",
+        reply_markup=ReplyKeyboardRemove()
+    ) startswith('/') and m.text != "NEXT ROUND 💸"
 
 # ✅ START COMMAND
 @app.on_message(filters.command("start"))
