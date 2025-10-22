@@ -271,20 +271,15 @@ async def confirm_user(client, message):
         player_ids[str(target_id)] = player_id
         
         # Send confirmation to user with NEXT ROUND button
-        next_round_keyboard = ReplyKeyboardMarkup(
-            [[("NEXT ROUND 💸")]],
-            resize_keyboard=True,
-            one_time_keyboard=True
-        )
-        
         await client.send_message(
-            target_id,
-            f"🎉 ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs!\nʏᴏᴜʀ ᴅᴇᴘᴏsɪᴛ ɪs ᴄᴏɴғɪʀᴍᴇᴅ ✅\n"
-            f"ʏᴏᴜʀ ᴘʟᴀʏᴇʀ ɪᴅ ({player_id}) ʜᴀs ʙᴇᴇɴ sᴀᴠᴇᴅ\n"
-            "ʏᴏᴜ ᴡɪʟʟ sᴛᴀʀᴛ ʀᴇᴄᴇɪᴠɪɴɢ ᴠɪᴘ sɪɢɴᴀʟs sᴏᴏɴ 🚀",
-            reply_markup=next_round_keyboard
+      user_id,
+    (
+        "🎉 ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs!\n"
+        "ʏᴏᴜʀ ᴅᴇᴘᴏsɪᴛ ɪs ᴄᴏɴғɪʀᴍᴇᴅ ✅\n"
+        f"ʏᴏᴜʀ ᴘʟᴀʏᴇʀ ɪᴅ ({player_id}) ʜᴀs ʙᴇᴇɴ sᴀᴠᴇᴅ\n"
+        "ʏᴏᴜ ᴡɪʟʟ sᴛᴀʀᴛ ʀᴇᴄᴇɪᴠɪɴɢ ᴠɪᴘ sɪɢɴᴀʟs sᴏᴏɴ 🚀"
+    )
         )
-        
         await message.reply(f"☑️ ᴜsᴇʀ {target_id} ᴄᴏɴғɪʀᴍᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴡɪᴛʜ ᴘʟᴀʏᴇʀ ɪᴅ: {player_id}")
     except:
         await message.reply("⚠️ ᴜsᴀɢᴇ: /confirm user_id player_id")
