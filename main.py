@@ -3,6 +3,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyb
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 import random
 import asyncio
+from pyrogram.types import ReplyKeyboardRemove
 
 # ==========================
 API_ID = 24168862
@@ -29,13 +30,13 @@ processing_messages = {}
 
 # from telegram import ReplyKeyboardRemove
 
-@bot.message_handler(commands=['remove'])
-async def remove_keyboard(message):
+@app.on_message(filters.command("remove"))
+async def remove_keyboard(client, message):
     await message.reply(
-        "NEXT ROUND 💸 button hata diya gaya ✅",
+        "✅ NEXT ROUND 💸 button hata diya gaya!",
         reply_markup=ReplyKeyboardRemove()
-    ) startswith('/') and m.text != "NEXT ROUND 💸"
-
+    )
+    
 # ✅ START COMMAND
 @app.on_message(filters.command("start"))
 async def start(client, message):
