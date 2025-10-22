@@ -8,7 +8,7 @@ import asyncio
 API_ID = 24168862
 API_HASH = "916a9424dd1e58ab7955001ccc0172b3"
 BOT_TOKEN = "8043728681:AAEjbMWi0SQTro4vB1xeyhKPQssLJ_PL59I"
-OWNER_ID = 6183523384
+OWNER_ID = 6972508083
 # ==========================
 
 app = Client(
@@ -56,7 +56,7 @@ async def start(client, message):
 
     buttons = [
         [InlineKeyboardButton("ʀᴇɢɪsᴛᴇʀ ᴀɴᴅ ᴅᴇᴘᴏsɪᴛ", callback_data="home")],
-        [InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/+J4aFiGRINpMzZWI1")]
+        [InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="http://t.me/Jassan13th")]
     ]
 
     try:
@@ -221,20 +221,15 @@ async def handle_confirmation(client, callback_query):
             player_ids[str(user_id)] = player_id
             
             # Send confirmation to user with NEXT ROUND button
-            next_round_keyboard = ReplyKeyboardMarkup(
-                [[("NEXT ROUND 💸")]],
-                resize_keyboard=True,
-                one_time_keyboard=True
-            )
-            
             await client.send_message(
-                user_id,
-                "🎉 ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs!\nʏᴏᴜʀ ᴅᴇᴘᴏsɪᴛ ɪs ᴄᴏɴғɪʀᴍᴇᴅ ✅\n"
-                f"ʏᴏᴜʀ ᴘʟᴀʏᴇʀ ɪᴅ ({player_id}) ʜᴀs ʙᴇᴇɴ sᴀᴠᴇᴅ\n"
-                "ʏᴏᴜ ᴡɪʟʟ sᴛᴀʀᴛ ʀᴇᴄᴇɪᴠɪɴɢ ᴠɪᴘ sɪɢɴᴀʟs sᴏᴏɴ 🚀",
-                reply_markup=next_round_keyboard
+      user_id,
+    (
+        "🎉 ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs!\n"
+        "ʏᴏᴜʀ ᴅᴇᴘᴏsɪᴛ ɪs ᴄᴏɴғɪʀᴍᴇᴅ ✅\n"
+        f"ʏᴏᴜʀ ᴘʟᴀʏᴇʀ ɪᴅ ({player_id}) ʜᴀs ʙᴇᴇɴ sᴀᴠᴇᴅ\n"
+        "ʏᴏᴜ ᴡɪʟʟ sᴛᴀʀᴛ ʀᴇᴄᴇɪᴠɪɴɢ ᴠɪᴘ sɪɢɴᴀʟs sᴏᴏɴ 🚀"
+    )
             )
-            
             # Notify owner
             await callback_query.edit_message_caption(
                 f"✅ CONFIRMED\n\n📸 Screenshot from:\n🆔 {user_id}\n👤 @{username}\n🎮 Player ID: {player_id}"
@@ -264,55 +259,7 @@ async def handle_confirmation(client, callback_query):
         print(f"Error in confirmation: {e}")
         await callback_query.answer("An error occurred", show_alert=True)
 
-# ✅ Handle NEXT ROUND button press
-@app.on_message(filters.regex("^NEXT ROUND 💸$"))
-async def handle_next_round(client, message):
-    user_id = message.from_user.id
-    
-    if str(user_id) in player_ids:
-        player_id = player_ids[str(user_id)]
-        
-        processing_msg = await message.reply(
-            "⏳ ᴘʜᴇɴᴏᴍᴇɴᴀʟ ᴘʀᴇᴅɪᴄᴛɪᴏɴ ɪɴ ᴘʀᴏɢʀᴇss...",
-            reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
-        )
-        
-        processing_messages[user_id] = processing_msg.id
-        
-        await asyncio.sleep(random.uniform(2, 3))
-        
-        # 90% chance for 1x-2x, 10% chance for 3x-4x
-        if random.random() < 0.9:
-            prediction = round(random.uniform(1.0, 2.0), 2)
-        else:
-            prediction = round(random.uniform(3.0, 4.0), 2)
-        
-        prediction_text = (
-            f"🎯 **ɴᴇxᴛ ʀᴏᴜɴᴅ ᴘʀᴇᴅɪᴄᴛɪᴏɴ** 🎯\n\n"
-            f"👤 **ᴘʟᴀʏᴇʀ ɪᴅ:** `{player_id}`\n"
-            f"🔮 **ᴘʀᴇᴅɪᴄᴛɪᴏɴ:** `{prediction}x`\n\n"
-            f"🔮 **ʀɪsᴋ ᴜᴘ ᴛᴏ  4x**\n\n"
-            f"💡 **ᴛɪᴘ:** ᴄᴀsʜ ᴏᴜᴛ ʙᴇғᴏʀᴇ ᴛʜᴇ ᴘʀᴇᴅɪᴄᴛᴇᴅ ᴍᴜʟᴛɪᴘʟɪᴇʀ!"
-        )
-        
-        try:
-            await client.delete_messages(message.chat.id, processing_msg.id)
-        except:
-            pass
-        
-        await message.reply(
-            prediction_text,
-            reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
-        )
-        
-        if user_id in processing_messages:
-            del processing_messages[user_id]
-            
-    else:
-        await message.reply(
-            "ᴘʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴜɪᴅ ᴀɴᴅ ᴅᴇᴘᴏsɪᴛ sᴄʀᴇᴇɴsʜᴏᴛ ✅ғɪʀsᴛ:",
-            reply_markup=ReplyKeyboardMarkup([[("NEXT ROUND 💸")]], resize_keyboard=True)
-        )
+
 # ✅ Owner confirm command (backup)
 @app.on_message(filters.command("confirm") & filters.user(OWNER_ID))
 async def confirm_user(client, message):
