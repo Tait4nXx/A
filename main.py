@@ -164,6 +164,10 @@ async def back_to_start_callback(client, callback_query):
         caption=welcome_text,
         reply_markup=InlineKeyboardMarkup(buttons)
     )
+def is_player_id_input(_, __, message):
+    # Ye filter check karega ki user normal text bhej raha hai, command nahi
+    return message.text and not message.text.startswith("/")
+
 # ✅ Handle Player ID after screenshot
 @app.on_message(filters.text & filters.create(is_player_id_input))
 async def handle_player_id(client, message):
