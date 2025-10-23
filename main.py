@@ -156,7 +156,7 @@ async def back_to_start_callback(client, callback_query):
 
     buttons = [
         [InlineKeyboardButton("ʀᴇɢɪsᴛᴇʀ ᴀɴᴅ ᴅᴇᴘᴏsɪᴛ", callback_data="home")],
-        [InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/+J4aFiGRINpMzZWI1")]
+        [InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="http://t.me/Jassan13th")]
     ]
     
     # Edit the message back to the original start screen
